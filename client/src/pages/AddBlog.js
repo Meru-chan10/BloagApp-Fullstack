@@ -63,16 +63,22 @@ export default function AddBlog() {
   };
 
   const handleImageUpload = async (file) => {
-    if (file.size > 50 * 1024 * 1024) { // check if file size is greater than 50MB
-		  setImageError("File size is too large. Please upload a file less than 50MB.");
-		  return;
-		}
+    // Check if the user has selected a file
+    if (!file) {
+      // If no file is selected (user canceled), do nothing
+      setImageError(null);
+      return;
+    }
+
+    if (file.size > 50 * 1024 * 1024) { // Check if file size is greater than 50MB
+      setImageError("File size is too large. Please upload a file less than 50MB.");
+      return;
+    }
 
     const imgBase64 = await convertToBase64(file);
-    console.log(imgBase64);
     setImage(imgBase64);
     setImageError(null);
-  }
+  };
 
   return (
     <>

@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import AdminView from '../components/AdminView';
+import UserView from '../components/UserView'
 import UserContext from '../UserContext';
 
 export default function Movies() {
@@ -11,6 +12,6 @@ export default function Movies() {
 
     user.isAdmin 
     ? <AdminView />    
-    : <AdminView/>
+    : <UserView/>
   );
 }

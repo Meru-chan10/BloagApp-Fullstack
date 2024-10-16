@@ -13,6 +13,7 @@ import Logout from './pages/Logout';
 import Error from './pages/Error';
 import AddBlog from './pages/AddBlog';
 import Blogs from './pages/Blogs'
+import BlogDetails from './components/BlogDetails';
 
 export default function App() {
   
@@ -72,6 +73,7 @@ return (
         <Route path="/register" element={<Register />} />
         <Route path="/addBlog" element={<AddBlog />} />
         <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blogs/:blogId" element={<BlogDetails/>} />
         <Route path="/*" element={<Error />} />
         </Routes>
     </Container>

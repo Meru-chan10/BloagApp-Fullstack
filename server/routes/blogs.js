@@ -16,7 +16,7 @@ router.get("/activePosts", blogController.getActivePosts)
 
 router.get("/getPost/:postId", blogController.getPost);
 
-router.patch("/updatePost/:postId", verify, verifyAdmin, blogController.udpatePost);
+router.patch("/updatePost/:postId", verify, verifyAdmin, blogController.updatePost);
 
 router.patch("/setActivePost/:postId", verify, verifyAdmin,  blogController.setActivePost);
 
@@ -26,7 +26,7 @@ router.delete("/deletePost/:postId", verify, verifyAdmin,  blogController.delete
 
 router.patch("/addComment/:postId", verify, blogController.addComment);
 
-router.get("/getComments/:postId", verify, blogController.getComments);
+router.get("/getComments/:postId", blogController.getComments);
 
 router.delete("/deleteComment/:postId", verify, verifyAdmin, blogController.deleteComment)
 

@@ -23,6 +23,7 @@ module.exports.registerUser = (req,res) => {
 	} else {
 
 		let newUser = new User({
+			image: req.body.image,
             name: req.body.name,
 			email : req.body.email,
 			password : bcrypt.hashSync(req.body.password, 10)

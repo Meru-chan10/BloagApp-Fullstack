@@ -30,7 +30,6 @@ return(
                     ? 
                     <>
                         <Nav.Link as={Link} to="/addBlog">Add Blog</Nav.Link>
-                        <Nav.Link as={Link} to="/comments">Comments</Nav.Link>
                         <Nav.Link as={Link} to="/logout">Logout</Nav.Link>
                     </>
                     : 

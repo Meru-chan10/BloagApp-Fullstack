@@ -32,6 +32,7 @@ module.exports.addPost = (req,res) =>{
 // Retrieve all posts (Admin only)
 module.exports.getAllPosts = (req, res) => {
     Blog.find({})
+      .populate('comments')
       .then(blog => {
         if (blog.length === 0) {
           return res.status(404).send({ message: 'No posts found' });
@@ -48,6 +49,7 @@ module.exports.getAllPosts = (req, res) => {
 // Retrieve Active Posts
 module.exports.getActivePosts = (req, res) => {
     Blog.find({isActive: true})
+    .populate('comments')
     .then(blog => {
         if(blog.length >= 0)
             {
@@ -65,6 +67,7 @@ module.exports.getActivePosts = (req, res) => {
 module.exports.getPost = (req, res) => {
     const blogId = req.params.postId
     Blog.findById(blogId)
+    .populate('comments')
     .then(blog => { 
         if(blog)
         {
@@ -78,7 +81,7 @@ module.exports.getPost = (req, res) => {
 }
 
 // Update Post
-module.exports.udpatePost = (req, res) => {
+module.exports.updatePost = (req, res) => {
     
     const blogId = req.params.postId
     const title = req.body.title
@@ -196,15 +199,11 @@ module.exports.deletePost = (req,res) =>{
 module.exports.addComment = async (req, res) => {
     try {
         const { postId } = req.params;
-        const userId = req.user?.id;
+        const userId = req.user.id;
         const { comment } = req.body;
 
-        // Ensure user is authenticated
-        if (!userId) return res.status(401).json({ message: 'Unauthorized' });
-        if (!comment) return res.status(400).json({ message: 'Comment is required' });
-
-        // Fetch the user’s name from the User schema (if not present in req.user)
-        const user = await User.findById(userId);
+        // Fetch the user’s name from the User schema
+        const user = await User.findById(userId); 
         if (!user) return res.status(404).json({ message: 'User not found' });
 
         // Create a new comment with the user's name
@@ -212,6 +211,7 @@ module.exports.addComment = async (req, res) => {
             postId,
             userId,
             name: user.name, // Get the name from the User schema
+            image: user.image, // Ensure the image is fetched properly
             comment,
         });
 
@@ -224,7 +224,14 @@ module.exports.addComment = async (req, res) => {
         post.comments.push(savedComment._id);
         await post.save();
 
-        res.status(200).json({ success: true, message: 'Comment added successfully' ,  comment: savedComment });
+        // Populate the savedComment with user details before sending
+        await savedComment.populate('userId', 'name image'); // Populate userId with user details
+
+        res.status(200).json({
+            success: true,
+            message: 'Comment added successfully',
+            comment: savedComment, // Return the saved comment with populated user details
+        });
     } catch (error) {
         console.error('Error adding comment:', error);
         res.status(500).json({ message: 'Internal server error', error: error.message });
@@ -232,11 +239,14 @@ module.exports.addComment = async (req, res) => {
 };
 
 
- // get Comments
- module.exports.getComments = async (req, res) => {
+ // Get comments
+module.exports.getComments = async (req, res) => {
     try {
       const postId = req.params.postId;
-      const blog = await Blog.findById(postId).populate('comments');
+      const blog = await Blog.findById(postId).populate({
+        path: 'comments',
+        populate: { path: 'userId', select: 'name image' },
+      });
       if (!blog) {
         return res.status(404).json({ message: 'Blog post not found' });
       }
@@ -249,27 +259,25 @@ module.exports.addComment = async (req, res) => {
   };
 
 
-
   // Delete comment
-module.exports.deleteComment = async (req, res) => {
+  module.exports.deleteComment = async (req, res) => {
     try {
       const { postId } = req.params;
-      const { commentId } = req.body; 
-
-      const blog = await Blog.findById(postId);
+      const { commentId } = req.body;
+  
+      const blog = await Blog.findById(postId).populate('comments');
   
       if (!blog) {
         return res.status(404).json({ message: 'Blog post not found' });
       }
   
-      const comment = blog.comments.id(commentId);
+      const comment = blog.comments.find((comment) => comment._id.toString() === commentId);
   
       if (!comment) {
         return res.status(404).json({ message: 'Comment not found' });
       }
   
-      blog.comments.pull(commentId);
-      await blog.save();
+      await Comment.findByIdAndDelete(commentId);
   
       res.json({ message: 'Comment deleted successfully' });
     } catch (err) {

@@ -8,7 +8,7 @@ import UserContext from '../UserContext';
 export default function Register() {
   const { user } = useContext(UserContext);
 
-  const [images, setImages] = useState('');
+  const [image, setImages] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,7 +31,7 @@ export default function Register() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        images: images,
+        image: image,
         name: name,
         email: email,
         password: password
@@ -61,12 +61,12 @@ export default function Register() {
   }
 
   useEffect(() => {
-    if ((images !== "" && name !== "" && email !== "" && password !== "" && confirmPassword !== "") && (password === confirmPassword)) {
+    if ((image !== "" && name !== "" && email !== "" && password !== "" && confirmPassword !== "") && (password === confirmPassword)) {
       setIsActive(true)
     } else {
       setIsActive(false)
     }
-  }, [images, name, email, password, confirmPassword])
+  }, [image, name, email, password, confirmPassword])
 
   const handleImageUpload = async (file) => {
     if (file.size > 50 * 1024 * 1024) { // check if file size is greater than 50MB
@@ -84,7 +84,7 @@ export default function Register() {
 
   return (
     (user.id !== null) ?
-      <Navigate to="/Login" />
+      <Navigate to="/login" />
       :
       <>
         <Form className="register-form" onSubmit={(e) => registerUser(e)}>
