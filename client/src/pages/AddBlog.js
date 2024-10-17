@@ -24,7 +24,7 @@ export default function AddBlog() {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await fetch('http://localhost:4000/blogs/addPost', {
+      const response = await fetch('https://blogapp-fullstack-wtto.onrender.com/blogs/addPost', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -32,7 +32,7 @@ export default function App() {
       useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-          fetch(`http://localhost:4000/users/details`, {
+          fetch(`https://blogapp-fullstack-wtto.onrender.com/users/details`, {
             headers: {
               Authorization: `Bearer ${token}`
             }

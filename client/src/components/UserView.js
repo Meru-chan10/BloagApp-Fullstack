@@ -10,7 +10,7 @@ export default function UserView() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch('http://localhost:4000/blogs/activePosts');
+        const response = await fetch('https://blogapp-fullstack-wtto.onrender.com/blogs/activePosts');
         const data = await response.json();
         setBlogs(data);
       } catch (error) {

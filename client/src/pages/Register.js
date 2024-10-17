@@ -19,7 +19,7 @@ export default function Register() {
   function registerUser(e) {
     e.preventDefault();
 
-    fetch(`http://localhost:4000/users/register`, {
+    fetch(`https://blogapp-fullstack-wtto.onrender.com/users/register`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"

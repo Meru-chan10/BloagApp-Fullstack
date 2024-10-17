@@ -12,7 +12,7 @@ export default function BlogDetails() {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/blogs/getPost/${blogId}`);
+        const response = await fetch(`https://blogapp-fullstack-wtto.onrender.com/blogs/getPost/${blogId}`);
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
         setBlog(data); 
@@ -30,7 +30,7 @@ export default function BlogDetails() {
     if (!comment) return; 
 
     try {
-      const response = await fetch(`http://localhost:4000/blogs/addComment/${blogId}`, {
+      const response = await fetch(`https://blogapp-fullstack-wtto.onrender.com/blogs/addComment/${blogId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

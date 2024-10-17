@@ -10,8 +10,8 @@ export default function BlogCatalog({ searchQuery }) {
   // Fetch blogs from the API
   const fetchData = () => {
     let fetchUrl = user.isAdmin === true 
-      ? `http://localhost:4000/blogs/all`
-      : `http://localhost:4000/blogs/active`;
+      ? `https://blogapp-fullstack-wtto.onrender.com/blogs/all`
+      : `https://blogapp-fullstack-wtto.onrender.com/blogs/active`;
 
     fetch(fetchUrl, {
       headers: {

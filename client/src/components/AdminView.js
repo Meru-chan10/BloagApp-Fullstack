@@ -6,7 +6,7 @@ import './styles/AdminView.css'
 
 
 const fetchBlogs = () => { 
-  return axios.get('http://localhost:4000/blogs/all', { 
+  return axios.get('https://blogapp-fullstack-wtto.onrender.com/blogs/all', { 
     headers: { 'Authorization': `Bearer ${localStorage.getItem("token")}` } 
   });
 };
@@ -44,9 +44,9 @@ export default function AdminViewBlog() {
   const editBlog = async (blog) => {
     try {
       console.log("Updating blog:", blog);
-      console.log("PATCH URL:", `http://localhost:4000/blogs/updatePost/${blog._id}`);
+      console.log("PATCH URL:", `https://blogapp-fullstack-wtto.onrender.com/blogs/updatePost/${blog._id}`);
       
-      const response = await axios.patch(`http://localhost:4000/blogs/updatePost/${blog._id}`, {
+      const response = await axios.patch(`https://blogapp-fullstack-wtto.onrender.com/blogs/updatePost/${blog._id}`, {
         title: blog.title,
         content: blog.content,
         author: blog.author,
@@ -93,7 +93,7 @@ export default function AdminViewBlog() {
 
   const deleteBlog = async (blog) => {
     try {
-      const response = await fetch(`http://localhost:4000/blogs/deletePost/${blog._id}`, {
+      const response = await fetch(`https://blogapp-fullstack-wtto.onrender.com/blogs/deletePost/${blog._id}`, {
         method: 'DELETE',
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +121,7 @@ export default function AdminViewBlog() {
 
   const deleteComment = async (postId, commentId) => {
     try {
-      const response = await fetch(`http://localhost:4000/blogs/deleteComment/${postId}`, {
+      const response = await fetch(`https://blogapp-fullstack-wtto.onrender.com/blogs/deleteComment/${postId}`, {
         method: 'DELETE',
         headers: {
           "Content-Type": "application/json",
@@ -166,7 +166,7 @@ export default function AdminViewBlog() {
 
   const setActiveStatus = async (blog, isActive) => {
     const action = isActive ? 'setActivePost' : 'setDeactivePost';
-    const url = `http://localhost:4000/blogs/${action}/${blog._id}`;
+    const url = `https://blogapp-fullstack-wtto.onrender.com/blogs/${action}/${blog._id}`;
 
     try {
       const response = await axios.patch(url, {}, {
