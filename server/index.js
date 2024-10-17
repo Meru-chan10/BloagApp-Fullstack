@@ -16,7 +16,7 @@ app.use(express.json({limit:'50mb'}));
 app.use(express.urlencoded({limit:'50mb',extended:true, parameterLimit:50000}));
 
 const corsOptions ={
-    origin:['http://localhost:4000', 'http://localhost:3000'],
+    origin:['https://blogapp-fullstack-wtto.onrender.com/', 'http://localhost:3000'],
 	credentials: true,
 	optionsSuccessStatus: 200
 }
