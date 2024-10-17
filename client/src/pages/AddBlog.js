@@ -52,7 +52,7 @@ export default function AddBlog() {
       Swal.fire({
         icon: 'error',
         title: 'Unsuccessful Blog Creation',
-        text: 'An error occurred while adding blog.',
+        text: 'An error occurred while adding the blog.',
       });
     }
 
@@ -63,14 +63,12 @@ export default function AddBlog() {
   };
 
   const handleImageUpload = async (file) => {
-    // Check if the user has selected a file
     if (!file) {
-      // If no file is selected (user canceled), do nothing
       setImageError(null);
       return;
     }
 
-    if (file.size > 50 * 1024 * 1024) { // Check if file size is greater than 50MB
+    if (file.size > 50 * 1024 * 1024) {
       setImageError("File size is too large. Please upload a file less than 50MB.");
       return;
     }
@@ -81,18 +79,29 @@ export default function AddBlog() {
   };
 
   return (
-    <>
+    <div style={{
+      background: 'rgba(103, 46, 196, 0.7)', // semi-transparent white background
+      backdropFilter: 'blur(10px)', // apply the blur effect
+      borderRadius: '15px', // rounded corners
+      padding: '20px',
+      maxWidth: '600px',
+      margin: 'auto',
+      color: '#333', // dark text for visibility
+      boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)', // soft shadow
+      border: '1px solid rgba(255, 255, 255, 0.5)', // subtle border
+      color:'white'
+    }}>
       <h1 className="my-5 text-center">Add Blog</h1>
       <Form onSubmit={createBlog}>
-      <Form.Group>
-            <Form.Label>Upload Profile picture</Form.Label>
-            <Form.Control 
-              type="file" 
-              accept='.jpeg, .png, .jpg'
-              onChange={e => handleImageUpload(e.target.files[0])} 
-              required
-            />
-          </Form.Group>
+        <Form.Group>
+          <Form.Label>Upload Image</Form.Label>
+          <Form.Control 
+            type="file" 
+            accept='.jpeg, .png, .jpg'
+            onChange={e => handleImageUpload(e.target.files[0])} 
+            required
+          />
+        </Form.Group>
         <Form.Group>
           <Form.Label>Title:</Form.Label>
           <Form.Control
@@ -123,25 +132,23 @@ export default function AddBlog() {
             onChange={handleInputChange(setAuthor)}
           />
         </Form.Group>
-        <Button variant="primary" type="submit" className="my-5">
+        <Button variant="light" type="submit" className="my-5">
           Submit
         </Button>
       </Form>
-    </>
+    </div>
   );
 }
 
-
 function convertToBase64(file) {
-    return new Promise((res, rej) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        res(fileReader.result);
-      }
-      fileReader.onerror = (e) => {
-        rej(e);
-      }
-    })
-  }
-  
+  return new Promise((res, rej) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      res(fileReader.result);
+    };
+    fileReader.onerror = (e) => {
+      rej(e);
+    };
+  });
+}

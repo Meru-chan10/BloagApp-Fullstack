@@ -1,0 +1,23 @@
+/* styles/AdminViewBlog.css */
+.card {
+    background: rgba(255, 255, 255, 0.1) !important; /* Semi-transparent background */
+    backdrop-filter: blur(10px); /* Apply blur */
+    border-radius: 15px; /* Rounded corners */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
+    color: white !important; /* Text color */
+    transition: transform 0.3s; /* Smooth hover effect */
+}
+
+.card:hover {
+    transform: scale(1.05); /* Slightly scale up on hover */
+}
+
+/* Additional styles for text inside the card */
+.card-title,
+.card-subtitle,
+.card-text {
+color: aliceblue !important;
+}
+.card img {
+    border-radius: 15px 0 0 15px; /* Rounded corners for images */
+}

@@ -3,7 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import { Navigate, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import UserContext from '../UserContext';
-
+import './styles/Register.css' // Import the CSS file for styling
 
 export default function Register() {
   const { user } = useContext(UserContext);
@@ -14,13 +14,7 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [imageError, setImageError] = useState(null);
-
   const [isActive, setIsActive] = useState(false);
-
-  console.log(name);
-  console.log(email);
-  console.log(password);
-  console.log(confirmPassword);
 
   function registerUser(e) {
     e.preventDefault();
@@ -62,20 +56,19 @@ export default function Register() {
 
   useEffect(() => {
     if ((image !== "" && name !== "" && email !== "" && password !== "" && confirmPassword !== "") && (password === confirmPassword)) {
-      setIsActive(true)
+      setIsActive(true);
     } else {
-      setIsActive(false)
+      setIsActive(false);
     }
-  }, [image, name, email, password, confirmPassword])
+  }, [image, name, email, password, confirmPassword]);
 
   const handleImageUpload = async (file) => {
-    if (file.size > 50 * 1024 * 1024) { // check if file size is greater than 50MB
-		  setImageError("File size is too large. Please upload a file less than 50MB.");
-		  return;
-		}
+    if (file.size > 50 * 1024 * 1024) { // Check if file size is greater than 50MB
+      setImageError("File size is too large. Please upload a file less than 50MB.");
+      return;
+    }
 
     const imgBase64 = await convertToBase64(file);
-    console.log(imgBase64);
     setImages(imgBase64);
     setImageError(null);
   }
@@ -86,7 +79,7 @@ export default function Register() {
     (user.id !== null) ?
       <Navigate to="/login" />
       :
-      <>
+      <div className="register-container"> {/* Add this wrapper div */}
         <Form className="register-form" onSubmit={(e) => registerUser(e)}>
           <h1 className="my-5 text-center">Register</h1>
 
@@ -107,7 +100,8 @@ export default function Register() {
               placeholder="Enter your Name" 
               required 
               value={name} 
-              onChange={e => { setName(e.target.value) }} />
+              onChange={e => setName(e.target.value)} 
+            />
           </Form.Group>
           <Form.Group>
             <Form.Label>Email:</Form.Label>
@@ -116,16 +110,18 @@ export default function Register() {
               placeholder="Enter Email" 
               required 
               value={email} 
-              onChange={e => { setEmail(e.target.value) }} />
+              onChange={e => setEmail(e.target.value)} 
+            />
           </Form.Group>
           <Form.Group>
-            <Form.Label >Password:</Form.Label>
+            <Form.Label>Password:</Form.Label>
             <Form.Control 
               type="password"
               placeholder="Enter Password" 
               required 
               value={password} 
-              onChange={e => { setPassword(e.target.value) }} />
+              onChange={e => setPassword(e.target.value)} 
+            />
           </Form.Group>
           <Form.Group>
             <Form.Label>Confirm Password:</Form.Label>
@@ -134,21 +130,21 @@ export default function Register() {
               placeholder="Enter Confirm Password" 
               required 
               value={confirmPassword} 
-              onChange={e => { setConfirmPassword(e.target.value) }} />
+              onChange={e => setConfirmPassword(e.target.value)} 
+            />
           </Form.Group>
 
           <Button 
             variant="dark" 
             type="submit" 
-            disabled={!isActive}
-			id='register'
+            id='register'
+            className='btn-register'
           >
             Create Account
           </Button>
-          <p className="my-3 mb-5">Already have an account? <Link to="/Login">Login</Link></p>
+          <p className="my-3 mb-3 text-center">Already have an account? <Link to="/Login">Login</Link></p>
         </Form>
-
-      </>
+      </div>
   );
 }
 

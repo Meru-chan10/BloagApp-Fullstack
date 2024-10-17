@@ -1,0 +1,26 @@
+.login-container {
+    background-color: rgba(103, 46, 196, 0.7); /* Semi-transparent purple */
+    border-radius: 15px; /* Rounded corners */
+    padding: 30px; /* Add some padding */
+    max-width: 400px; /* Limit the width */
+    margin: 50px auto; /* Center it horizontally and add top margin */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Optional shadow for depth */
+  }
+  
+  .login-container h1 {
+    color: white; /* White text color for the heading */
+  }
+  
+  .login-container .form-label, 
+  .login-container .form-control {
+    color: white; /* Optional: change label and input text color */
+  }
+  
+  .login-container .btn {
+    width: 100%; /* Make buttons full width */
+  }
+  
+  .submit-btn
+  {
+    margin-top: 20px;
+  }

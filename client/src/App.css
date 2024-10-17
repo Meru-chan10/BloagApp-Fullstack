@@ -1,38 +1,52 @@
-.App {
-  text-align: center;
+*
+{
+  margin: 0 ;
+  padding: 0 ;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* global.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif; /* Adjust as needed */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Full height for the background */
+.full-background {
+  min-height: 100vh; /* Ensures it covers the full viewport height */
+  background: url('./pages/styles/bg.jpg') no-repeat center center fixed; /* Replace with your image path */
+  background-size: cover; /* Cover the entire background */
+  position: relative; /* For overlay positioning */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Overlay for darkening the background */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Black overlay with transparency */
+  z-index: 1; /* Ensure the overlay is above the background */
 }
 
-.App-link {
-  color: #61dafb;
+/* Adjust navbar to be above overlay */
+.navbar {
+  position: relative; /* Change to relative positioning */
+  z-index: 2; /* Ensure the navbar is above the overlay */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Adjust content to sit above the overlay */
+.content {
+  position: relative; /* To ensure the content appears above the overlay */
+  z-index: 2; /* Higher z-index than overlay */
+  padding: 20px; /* Adjust as necessary */
+  color: white; /* Ensure text is readable against the background */
+}
+
+/* Optional: Adjust button styles for better visibility */
+.btn {
+  z-index: 3; /* Higher z-index for buttons if necessary */
 }

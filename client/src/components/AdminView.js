@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Form, Card, Button, Row, Col, Modal } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import './styles/AdminView.css'
+
 
 const fetchBlogs = () => { 
   return axios.get('http://localhost:4000/blogs/all', { 
@@ -162,77 +164,120 @@ export default function AdminViewBlog() {
     setImageError(null);
   }
 
+  const setActiveStatus = async (blog, isActive) => {
+    const action = isActive ? 'setActivePost' : 'setDeactivePost';
+    const url = `http://localhost:4000/blogs/${action}/${blog._id}`;
+
+    try {
+      const response = await axios.patch(url, {}, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.data.success) {
+        Swal.fire({
+          icon: 'success',
+          title: isActive ? 'Blog Activated' : 'Blog Archived',
+        });
+        refreshBlogs();
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Operation Failed',
+          text: response.data.message || 'Something went wrong',
+        });
+      }
+    } catch (error) {
+      console.error('Error changing status:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.message,
+      });
+    }
+  };
 
 
   return (
     <>
-      <h1 className="text-center my-4">Admin Blog Dashboard</h1>
-      <Form>
-        <Form.Group className='my-5'>
-          <Form.Label><strong>Search Blogs:</strong></Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter search query"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </Form.Group>
-      </Form>
+        <h1 className="text-center my-4">Admin Blog Dashboard</h1>
+        <Form>
+            <Form.Group className='my-5'>
+                <Form.Label><strong>Search Blogs:</strong></Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter search query"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+            </Form.Group>
+        </Form>
 
-      {filteredBlogs.length === 0 ? (
-        <p>No blogs available</p>
-      ) : (
-        <Row className="g-4">
-          {filteredBlogs.map((blog) => (
-            <Col key={blog._id} xs={12}>
-              <Card className="h-100 d-flex flex-row">
-                <div className="p-2">
-                  <Card.Img variant="left" src={blog.image} style={{ width: '500px', height: '700px' }} />
-                </div>
-                <div className="flex-grow-1">
-                  <Card.Body>
-                    <Card.Title>{blog.title}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">
-                      Author: {blog.author}
-                    </Card.Subtitle>
-                    <Card.Text>{blog.content}</Card.Text>
-                    < Card.Text>
-                      <strong>Creation Date:</strong> {new Date(blog.createdOn).toLocaleDateString()}
-                    </Card.Text>
-                    <Card.Text>
-                      <strong><span>Comments:</span></strong>
-                      {blog.comments && blog.comments.length > 0 ? (
-                        blog.comments.map((comment) => (
-                          <div key={comment._id} className="d-flex align-items-center">
-                            <img
-                              src={comment.image}
-                              alt={comment.name}
-                              style={{
-                                width: '30px',
-                                height: '30px',
-                                borderRadius: '50%',
-                                marginRight: '10px'
-                              }}
-                            />
-                            <span>
-                              <strong>{comment.name}:</strong> {comment.comment}
-                            </span>
-                            <Button variant="danger" onClick={() => deleteComment(blog._id, comment._id)}>Delete</Button>
-                          </div>
-                        ))
-                      ) : (
-                        <span>No comments on this blog.</span>
-                      )}
-                    </Card.Text>
-                    <Button variant="primary" onClick={() => handleEdit(blog)}>Edit Blog</Button>
-                    <Button variant="danger" onClick={() => deleteBlog(blog)}>Delete Blog</Button>
-                  </Card.Body>
-                </div>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      )}
+        {filteredBlogs.length === 0 ? (
+            <p>No blogs available</p>
+        ) : (
+            <Row className="g-4">
+                {filteredBlogs.map((blog) => (
+                    <Col key={blog._id} xs={12}>
+                        <Card className="h-100 d-flex flex-row">
+                            <div className="p-2">
+                                <Card.Img variant="left" src={blog.image} style={{ width: '500px', height: '700px' }} />
+                            </div>
+                            <div className="flex-grow-1">
+                                <Card.Body>
+                                    <Card.Title>{blog.title}</Card.Title>
+                                    <Card.Subtitle className="mb-2" style={{color: "white"}}>
+                                        Author: {blog.author}
+                                    </Card.Subtitle>
+                                    <Card.Text>{blog.content}</Card.Text>
+                                    <Card.Text>
+                                        <strong>Creation Date:</strong> {new Date(blog.createdOn).toLocaleDateString()}
+                                    </Card.Text>
+                                    <Card.Text>
+                                        <strong><span>Comments:</span></strong>
+                                        {blog.comments && blog.comments.length > 0 ? (
+                                            blog.comments.map((comment) => (
+                                                <div key={comment._id} className="d-flex align-items-center">
+                                                    <img
+                                                        src={comment.image}
+                                                        alt={comment.name}
+                                                        style={{
+                                                            width: '30px',
+                                                            height: '30px',
+                                                            borderRadius: '50%',
+                                                            marginRight: '10px'
+                                                        }}
+                                                    />
+                                                    <span>
+                                                        <strong>{comment.name}:</strong> {comment.comment}
+                                                    </span>
+                                                    <Button variant="danger" onClick={() => deleteComment(blog._id, comment._id)}>Delete</Button>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <span>No comments on this blog.</span>
+                                        )}
+                                    </Card.Text>
+                                    <Button variant="primary" onClick={() => handleEdit(blog)}>Edit Blog</Button>
+                                    <Button variant="danger" onClick={() => deleteBlog(blog)}>Delete Blog</Button>
+                                    <Card.Text>
+                                        <strong>Status:</strong>{' '}
+                                        {blog.isActive ? 'Active' : 'Archived'}
+                                    </Card.Text>
+                                    <Button
+                                        variant={blog.isActive ? 'danger' : 'success'}
+                                        onClick={() => setActiveStatus(blog, !blog.isActive)}
+                                    >
+                                        {blog.isActive ? 'Archive' : 'Activate'}
+                                    </Button>
+                                </Card.Body>
+                            </div>
+                        </Card>
+                    </Col>
+            ))}
+          </Row>
+        )}
 
 <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
         <Modal.Header closeButton>

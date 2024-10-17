@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from 'react'; 
 import { Form, Button } from 'react-bootstrap';
-import { Navigate, Link } from 'react-router-dom'; 
+import { Navigate } from 'react-router-dom'; 
 import Swal from 'sweetalert2';
 import UserContext from '../UserContext';
-
+import './styles/Login.css'; // Import the CSS file for styling
 
 export default function Login() {
   const { user, setUser } = useContext(UserContext);
@@ -12,7 +12,7 @@ export default function Login() {
   const [password, setPassword] = useState(''); 
   const [isActive, setIsActive] = useState(true);
 
-function authenticate(e) {
+  function authenticate(e) {
     e.preventDefault();
     
     fetch(`http://localhost:4000/users/login`, {
@@ -28,7 +28,6 @@ function authenticate(e) {
     .then(res => res.json())
     .then(data => {
       if(data.access !== undefined) {
-
         localStorage.setItem('token', data.access);
         retrieveUserDetails(data.access); 
 
@@ -40,7 +39,6 @@ function authenticate(e) {
 
         setEmail('');
         setPassword('');
-
       } else {
         Swal.fire({
           title: "Authentication failed",
@@ -77,12 +75,10 @@ function authenticate(e) {
 
   return (
     (user.id !== null) ?
-
     <Navigate to="/" />
-
     :
-    
-    <Form onSubmit={(e) => authenticate(e)}>
+    <div className="login-container"> {/* Add this wrapper div */}
+      <Form onSubmit={(e) => authenticate(e)}>
         <h1 className="my-5 text-center">Login</h1>
         <Form.Group controlId="userEmail">
             <Form.Label>Email address</Form.Label>
@@ -90,7 +86,7 @@ function authenticate(e) {
                 type="text"
                 placeholder="Enter email"
                 value={email}
-                onChange={(e) => setEmail (e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 required
             />
         </Form.Group>
@@ -106,15 +102,16 @@ function authenticate(e) {
             />
         </Form.Group>
 
-         { isActive ? 
-            <Button variant="primary" type="submit" id="submitBtn">
+         {isActive ? 
+            <Button className='submit-btn' variant="primary" type="submit" id="submitBtn">
                 Submit
             </Button>
             : 
-            <Button variant="danger" type="submit" id="submitBtn" disabled>
+            <Button className='submit-btn' variant="danger" type="submit" id="submitBtn" disabled>
                 Submit
             </Button>
         }
-    </Form>
-)
-}
+      </Form>
+    </div>
+  );
+} 

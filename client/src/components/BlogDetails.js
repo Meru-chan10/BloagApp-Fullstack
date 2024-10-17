@@ -83,7 +83,7 @@ export default function BlogDetails() {
         <Card.Img
           variant="top"
           src={blog.image}
-          style={{ width: '100%', height: '250px', objectFit: 'cover' }} 
+          style={{ width: '100%', height: '600px', objectFit: 'cover' }} 
         />
         <Card.Body>
           <Card.Text>{blog.content}</Card.Text>

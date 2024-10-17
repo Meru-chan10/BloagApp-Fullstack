@@ -15,6 +15,8 @@ import AddBlog from './pages/AddBlog';
 import Blogs from './pages/Blogs'
 import BlogDetails from './components/BlogDetails';
 
+import './App.css'
+
 export default function App() {
   
     const [user, setUser] = useState({
@@ -56,31 +58,29 @@ export default function App() {
       }, []);
 
 
-return (
-    <>
-    <UserProvider value={{user, setUser, unsetUser}}>
-    
-    <Router>
-    <AppNavbar/>
-    <Routes>
-
-    </Routes>
-    <Container>
-        <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/logout" element={<Logout />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/addBlog" element={<AddBlog />} />
-        <Route path="/blogs" element={<Blogs />} />
-        <Route path="/blogs/:blogId" element={<BlogDetails/>} />
-        <Route path="/*" element={<Error />} />
-        </Routes>
-    </Container>
-    </Router>
-    </UserProvider>
-    
-    </>
+      return (
+        <>
+            <UserProvider value={{ user, setUser, unsetUser }}>
+                <Router>
+                    <div className="full-background">
+                        <div className="overlay"></div>
+                        <AppNavbar />
+                        <Container className="content">
+                            <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/logout" element={<Logout />} />
+                                <Route path="/register" element={<Register />} />
+                                <Route path="/addBlog" element={<AddBlog />} />
+                                <Route path="/blogs" element={<Blogs />} />
+                                <Route path="/blogs/:blogId" element={<BlogDetails />} />
+                                <Route path="/*" element={<Error />} />
+                            </Routes>
+                        </Container>
+                    </div>
+                </Router>
+            </UserProvider>
+        </>
 )
 
 };

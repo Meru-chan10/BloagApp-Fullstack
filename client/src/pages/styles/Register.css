@@ -1,0 +1,35 @@
+.register-container {
+    background-color:rgba(103, 46, 196, 0.7); /* Semi-transparent purple */
+    border-radius: 15px; /* Rounded corners */
+    padding: 30px; /* Add some padding */
+    max-width: 400px; /* Limit the width */
+    margin: 50px auto; /* Center it horizontally and add top margin */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Optional shadow for depth */
+  }
+  
+  .register-container h1 {
+    color: white; /* White text color for the heading */
+  }
+  
+  .register-container .form-label {
+    color: white; /* Change label color to white */
+  }
+  
+  .register-container .form-control {
+    color: black; /* Change input text color to black */
+    background-color: rgba(255, 255, 255, 0.9); /* White background for input */
+    border: 1px solid rgba(0, 0, 0, 0.2); /* Optional: border for input */
+  }
+  
+  .register-container .form-control::placeholder {
+    color: rgba(0, 0, 0, 0.5); /* Change placeholder color for better visibility */
+  }
+  
+  .register-container .btn {
+    width: 100%; /* Make buttons full width */
+  }
+  
+  
+  .btn-register {
+    margin-top: 20px;
+  }
